@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from bs4 import BeautifulSoup
-import mysql.connector, pandas as pd, csv, tabulate, requests
+import mysql.connector, tabulate, requests
 
 conn = mysql.connector.connect(host="localhost",user="root",password="", database="pokemon")
 cursor = conn.cursor(buffered=True)
@@ -27,13 +27,12 @@ cursor.execute("""
         );
     """)
 conn.commit()
+
 url = "https://pokemondb.net/pokedex/all"
 reponse = requests.get(url)
 html = str(reponse.content)
 soup = BeautifulSoup (html, "html.parser")
 table=soup.find (id = "pokedex")
-
-
 
 for row in table.findAll("tr"):
     t = []
@@ -43,8 +42,8 @@ for row in table.findAll("tr"):
     if len(t) > 1 :
         list = (t[(0)], t[(1)], t[(2)], t[(3)], t[(4)], t[(5)], t[(6)], t[(7)], t[(8)], t[(9)])
         cursor.execute(
-                """INSERT INTO pokedex (id_pokedex, name, type , Total, HP, attack, Defense, Sp_att, Sp_Def, Speed) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)""",
-                list)
+                """INSERT INTO pokedex (id_pokedex, name, type , Total, HP, attack, Defense, Sp_att, Sp_Def, Speed) 
+                  VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)""", list)
         conn.commit()
 
     else:

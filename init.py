@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from bs4 import BeautifulSoup
-import mysql.connector, tabulate, requests
+import mysql.connector, requests
 
 conn = mysql.connector.connect(host="localhost",user="root",password="", database="pokemon")
 cursor = conn.cursor(buffered=True)
